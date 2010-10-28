@@ -1,0 +1,15 @@
+<h2><a href='#module=transactions'>Transactions</a> - <a href='#module=transactions/add'>Add</a> - <a href='#module=transactions/upload'>Upload</a> - Rules</h2>
+
+<h3><a id='add' href='#module=transactions/rules&action=add'>Add</a></h3>
+<div id='editor'>
+	<button class='save'>Save</button>
+	<button class='cancel'>Cancel</button>
+	<input type='text' class='name' />
+</div>
+<div class='clearfix' id='rules'>
+	{{#rules}}
+		<div class='rule' id='{{_id}}'>
+			<button class='del'>X</button> - <a href='#module=transactions/rules&action=show&rule={{_id}}' class='name'>{{name}}</a>
+		</div>	
+	{{/rules}}
+</div>

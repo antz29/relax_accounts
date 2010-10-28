@@ -1,0 +1,6 @@
+<h2>Select account</h2>
+<div id='select-account'>
+	{{#accounts}}
+		<div id='{{_id}}' class='account'>{{name}}</div>
+	{{/accounts}}
+</div>

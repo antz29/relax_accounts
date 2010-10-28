@@ -1,0 +1,6 @@
+<h2><a href='#module=transactions'>Transactions</a> - <a href='#module=transactions/add'>Add</a> - Upload - <a href='#module=transactions/rules'>Rules</a></h2>
+
+<div>Select statement to upload: <input type='file' id='statement' /></div>
+
+<div class='clearfix' id='uploads'></div>
+

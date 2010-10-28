@@ -1,0 +1,4 @@
+<h2>Transactions - <a href='#module=transactions/add'>Add</a> - <a href='#module=transactions/upload'>Upload</a> - <a href='#module=transactions/rules'>Rules</a></h2>
+
+<div><button id='upload'>Upload!</button></div>
+

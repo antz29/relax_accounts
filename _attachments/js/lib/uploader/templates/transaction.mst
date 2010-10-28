@@ -1,0 +1,38 @@
+{{#transaction}}
+	<div class="transaction {{#valid}}valid{{/valid}} {{#invalid}}invalid{{/invalid}}" id='{{uid}}'>
+		<div class='clearfix'>
+			<div data-method='Payee' class='edit payee'>{{payee}}</div>
+			<div data-method='Date' class='edit date'>{{date}}</div>
+			<div data-method='Category' class='edit category'>{{category}}</div>
+			<div data-method='Value' class='edit value'>{{value}}</div>
+			<div data-method='Description' class='edit description'>{{description}}</div>	
+			<div data-method='Transfer' class='edit transfer'>{{transfer}}</div>
+			<div class='toolbar'>
+				<button class="add-split hover ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" title="Add split">
+					<span class="ui-button-icon-primary ui-icon ui-icon ui-icon-calculator"></span>
+					<span class="ui-button-text">Add split</span>
+				</button>
+				<button class="delete hover ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" title="Delete transaction">
+					<span class="ui-button-icon-primary ui-icon ui-icon ui-icon-closethick"></span>
+					<span class="ui-button-text">Delete transaction</span>
+				</button>
+			</div>
+		</div>
+		{{#splits}}
+		<div id="{{id}}" class="split clearfix">
+			<div data-method='Payee' class='edit payee'>{{payee}}{{^payee}}No Payee{{/payee}}</div>
+			<div data-method='Date' class='date'>&nbsp;</div>
+			<div data-method='Category' class='edit category'>{{category}}{{^category}}No Category{{/category}}</div>
+			<div data-method='Value' class='edit value'>{{value}}</div>
+			<div data-method='Description' class='edit description'>{{description}}{{^description}}No Description{{/description}}</div>	
+			<div data-method='Transfer' class='edit transfer'>{{transfer}}{{^transfer}}No Transfer{{/transfer}}</div>
+			<div class='toolbar'>	
+				<button class="del-split hover ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" title="Delete split">
+					<span class="ui-button-icon-primary ui-icon ui-icon ui-icon-closethick"></span>
+					<span class="ui-button-text">Add split</span>
+				</button>
+			</div>
+		</div>
+		{{/splits}}
+	</div>
+{{/transaction}}
