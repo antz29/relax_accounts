@@ -1,0 +1,5 @@
+couchapp.db=http://USER:PASS@HOST/DB
+couchapp.design=relax
+couchapp.name=Relax Home Accounts
+couchapp.description=Chill out! The accounts are sorted.
+couchapp.language=javascript

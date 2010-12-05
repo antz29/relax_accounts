@@ -1,0 +1,18 @@
+<h2>Accounts - <a href='#module=accounts/add'>Add</a></h2>
+
+{{#types}}
+	<div class='group clearfix'>
+		<h3>{{name}} : {{balance}}</h3>
+		{{#accounts}}
+		<div id='{{_id}}' class='account clearfix'>
+			<p style='float:left;width:60%;'>{{name}}</p>
+			<p class='balance {{#negative}}negative{{/negative}} {{#positive}}positive{{/positive}}' style='float:right;width:30%;text-align:right;'>{{balance}}</p>
+			<p style='clear:left; float:left;width:75%;'>
+				<a href='#module=transactions&account={{_id}}'>View Transactions</a> /
+				<a href='#module=accounts/edit&account={{_id}}'>Edit</a>
+				{{#accid}}<span style='display:none;'> / <a id='{{accid}}' class='uploads' href='#module=transactions/uploads&account={{accid}}'>Uploads</a></span>{{/accid}}
+			</p>
+		</div>
+		{{/accounts}}		
+	</div>	
+{{/types}}

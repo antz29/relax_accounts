@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<project basedir="." default="build.prod">
+	<property name="src" location="src"/>
+	<property name="build" location="build"/>
+	<property name="jscompjar" location="tools/compiler.jar" />
+	<property name="jsbuilder" location="tools/build.php" />
+	<property name="mode" value="dev"/>
+	
+	<loadproperties srcFile="build.properties"/>
+	
+	<taskdef name="jscomp"
+  		classname="com.google.javascript.jscomp.ant.CompileTask"
+  		classpath="${jscompjar}"
+  	/>
+	  	
+  	<target name="clean">
+  		<delete dir="${build}" />
+  	</target>
+  	
+  	<target name="init" depends="clean">
+  		<mkdir dir="${build}" />
+  		<mkdir dir="${build}/_attachments" />
+  		<mkdir dir="${build}/_attachments/js" />
+  	</target>
+  	
+  	<target name="couchdb.files" depends="init">
+		<copy todir="${build}/views">
+    			<fileset dir="${src}/views"/>
+		</copy>
+		<copy todir="${build}/shows">
+	    		<fileset dir="${src}/shows"/>
+		</copy>
+		<copy todir="${build}/lists">
+    			<fileset dir="${src}/lists"/>
+		</copy>  	
+	</target>
+
+
+	<target name="assets" depends="init">
+		<copy todir="${build}/_attachments/css">
+			<fileset dir="${src}/public/css"/>
+		</copy>
+		<copy todir="${build}/_attachments/img">
+			<fileset dir="${src}/public/img"/>
+		</copy>	
+		<copy todir="${build}/_attachments/css">
+			<fileset dir="${src}/vendor/css"/>
+		</copy>		
+		<copy todir="${build}/_attachments/js/html5-bp">
+			<fileset dir="${src}/vendor/js/html5-bp"/>
+		</copy>
+		<copy todir="${build}/_attachments/js/cmvc">
+			<fileset dir="${src}/vendor/js/cmvc"/>
+		</copy>
+		<copy file="${src}/public/index.html" todir="${build}/_attachments" />
+	</target>
+
+  	<target name="couchapp.settings" depends="init">
+ 		<copy file="${src}/couchapprc" tofile="${build}/.couchapprc"/>
+ 		<replace file="${build}/.couchapprc" token="@CDB@" value="${couchapp.db}"/>
+ 		
+ 		<copy file="${src}/couchapp.json" tofile="${build}/couchapp.json"/>
+ 		<replace file="${build}/couchapp.json" token="@CNAME@" value="${couchapp.name}"/>
+ 		<replace file="${build}/couchapp.json" token="@CDESC@" value="${couchapp.description}"/>
+ 		
+ 		<echo file="${build}/_id" append="false">_design/${couchapp.design}</echo>
+ 		<echo file="${build}/language" append="false">${couchapp.language}</echo>
+  	</target>
+  	
+  	<target name="fixcrlf">
+		<fixcrlf srcdir="${src}"
+			tab="add"
+			eol="unix" 
+		/>
+  	</target>
+  	
+	<target name="build.js">
+  		<exec executable="php">
+    		<arg value="${jsbuilder}"/>
+		<arg value="${mode}"/>
+    		<arg value="app:${src}/public/js"/>
+		<arg value="vendor:${src}/vendor/js"/>
+		<arg value="${build}/_attachments/js"/>
+		<arg value="js"/>
+  		</exec>
+	</target>
+
+	<target name="compile">
+		<jscomp compilationLevel="simple" warning="quiet" debug="false" output="${build}/_attachments/js/cmvc.min.js">
+	  		<sources dir="${build}">
+	    		<file name="cmvc.js" />
+	  		</sources>
+		</jscomp>
+  	</target>
+
+	<target name="couchapp.push">
+		<exec dir="${build}" executable="couchapp">
+    			<arg value="push" />
+  		</exec>
+	</target>
+
+	<target name="build" depends="fixcrlf,couchdb.files,couchapp.settings,assets,build.js"></target>
+	<target name="compile" depends="build,compile"></target>
+	<target name="deploy" depends="build,couchapp.push"></target>
+</project>

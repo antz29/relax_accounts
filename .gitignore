@@ -1,2 +1,3 @@
 .project
-.couchapprc
+build.properties
+build
