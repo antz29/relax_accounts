@@ -1,16 +1,11 @@
-// #PROVIDES: controller.home.index
+// #PACKAGE: controller
+// #MODULE: home.index
 
-var RA = RA || {};
+CMVC.action("home","index",function() {	
 
-(function($) {
-	
-	RA.Home.Index = function() {
-		RA.Action.call(this);		
-				
-		this.go = function(callback) {
-			this.getView().message = "This is a message for you!";
-			callback();
-		};
+	this.go = function(callback) {
+		this.getView().message = "This is a message for you!";
+		callback();
 	};
-	
-}(jQuery));
+
+});

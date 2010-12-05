@@ -1,17 +1,11 @@
 <?xml version="1.0"?>
-<project basedir="." default="build.prod">
+<project basedir="." default="build">
 	<property name="src" location="src"/>
 	<property name="build" location="build"/>
-	<property name="jscompjar" location="tools/compiler.jar" />
-	<property name="jsbuilder" location="tools/build.php" />
-	<property name="mode" value="dev"/>
-	
+	<property name="jsbuilder" location="tools/jsbuilder.jar" />
+	<taskdef name="jsbuilder" classname="org.antz29.jsbuilder.ant.BuilderTask" classpath="${jsbuilder}" />
+
 	<loadproperties srcFile="build.properties"/>
-	
-	<taskdef name="jscomp"
-  		classname="com.google.javascript.jscomp.ant.CompileTask"
-  		classpath="${jscompjar}"
-  	/>
 	  	
   	<target name="clean">
   		<delete dir="${build}" />
@@ -72,26 +66,19 @@
 			tab="add"
 			eol="unix" 
 		/>
-  	</target>
-  	
-	<target name="build.js">
-  		<exec executable="php">
-    		<arg value="${jsbuilder}"/>
-		<arg value="${mode}"/>
-    		<arg value="app:${src}/public/js"/>
-		<arg value="vendor:${src}/vendor/js"/>
-		<arg value="${build}/_attachments/js"/>
-		<arg value="js"/>
-  		</exec>
 	</target>
 
-	<target name="compile">
-		<jscomp compilationLevel="simple" warning="quiet" debug="false" output="${build}/_attachments/js/cmvc.min.js">
-	  		<sources dir="${build}">
-	    		<file name="cmvc.js" />
-	  		</sources>
-		</jscomp>
-  	</target>
+	<target name="jsbuilder">
+		<jsbuilder dir="${build}" pattern="_attachments/js/relax.js">
+			<source path="${src}/public/js" />
+	    
+			<module package='lib' name='jquery.caret' file='${src}/vendor/js/jquery/plugins/caret.js' />
+			<module package='lib' name='jquery.sparkline' file='${src}/vendor/js/jquery/plugins/sparkline.js' />
+			<module package='lib' name='md5' file='${src}/vendor/js/paj/md5.js' />
+			<module package='lib' name='raphael' file='${src}/vendor/js/raphael/raphael.js' />
+			<module package='lib' name='slickgrid' file='${src}/vendor/js/slickgrid/slickgrid.js' />
+		</jsbuilder>
+	</target>
 
 	<target name="couchapp.push">
 		<exec dir="${build}" executable="couchapp">
@@ -99,7 +86,7 @@
   		</exec>
 	</target>
 
-	<target name="build" depends="fixcrlf,couchdb.files,couchapp.settings,assets,build.js"></target>
-	<target name="compile" depends="build,compile"></target>
+	<target name="build" depends="clean,fixcrlf,couchdb.files,couchapp.settings,assets,jsbuilder"></target>
+	<target name="compile" depends="build"></target>
 	<target name="deploy" depends="build,couchapp.push"></target>
 </project>

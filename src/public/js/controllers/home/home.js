@@ -1,11 +1,6 @@
-// #PROVIDES: controller.home
+// #PACKAGE: controller
+// #MODULE: home
 
-var RA = RA || {};
-
-(function($) {
-	
-	RA.Home = function() {
-		RA.Module.call(this);
-	};
-	
-}(jQuery));
+CMVC.controller("home",function() {
+			
+});
