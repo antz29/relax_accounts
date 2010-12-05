@@ -77,6 +77,10 @@
 			<module package='lib' name='md5' file='${src}/vendor/js/paj/md5.js' />
 			<module package='lib' name='raphael' file='${src}/vendor/js/raphael/raphael.js' />
 			<module package='lib' name='slickgrid' file='${src}/vendor/js/slickgrid/slickgrid.js' />
+
+			<plugin class="org.antz29.jsbuilder.plugins.processor.DominoesProcessor">
+				<property name="rules_file" value="_attachments/js/init.js" />
+			</plugin>
 		</jsbuilder>
 	</target>
 
